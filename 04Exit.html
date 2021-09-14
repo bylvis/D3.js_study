@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/jQuery1.4.1.js"></script>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <h3>这是一个h3标签</h3>
+    <h3>这是一个h3标签</h3>
+    <h3>这是一个h3标签</h3>
+    <h3>这是一个h3标签</h3>
+    <h3>这是一个h3标签</h3>
+    <h3>这是一个h3标签</h3>
+    
+    <script>
+        var text = ['我是','需要绑定的','数据','啊']
+        var h3 = d3.selectAll('h3');
+        var updata = h3.data(text);
+
+        var enter = updata.enter();
+
+        
+
+       
+
+        updata.text(function(value,index){
+            return value;
+        })
+
+        var addh3 = enter.append('h3');
+        
+        addh3.text(function(value,index){
+            return value;
+        })
+
+        var exit = updata.exit();
+        exit.text(function(value,index){
+            return '我是剩下的h3';
+        })
+
+    </script>
+</body>
+</html>
+<!-- 
+    1.exit意思就是剩下的
+ -->

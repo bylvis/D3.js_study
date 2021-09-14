@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/jQuery1.4.1.js"></script>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <h2>执迷不悟</h2>
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+    <script>
+        var lyrics = [
+            '我不是你们想的如此完美',
+            '我承认有时也会辨不清真伪',
+            '并非我不愿意走出迷堆 只是这一次',
+            '这次是自己(而)不是谁',
+            '要我用谁的心去体会 真真切切地感受周围',
+            '就算痛苦 就算是泪 也是属于我的伤悲',
+            '我还能用谁的心去体会 真真切切地感受周围',
+            '就算疲倦 就算是累 也只能执迷(而)不悔'
+        ]
+        // 创建选择集
+        var h3 = d3.select('body').selectAll('h3');
+        
+        // 选择集绑定数据组
+        var updata = h3.data(lyrics);
+
+        // 创建新的dom元素 属于updata的
+        var enter = updata.enter();
+        console.log(updata);
+        console.log(enter);
+
+        // 渲染数据到页面的选择集上
+        updata.text(function(value,index){
+            return value;
+        })
+
+        // 创建一个新的h3元素 这个h3元素是和之前的数据组合绑定的
+        var addH3 = enter.append('h3');
+        console.log(enter);
+
+        // 这个新的元素的数据渲染到页面上
+        addH3.text(function(value,index){
+            console.log(value,index);
+            return value;
+        })
+    </script>
+</body>
+
+</html>
+<!-- 
+    1.d3中data()函数用来绑定数据集合
+    2.select selectAll
+    3.data() 绑定数据集合 1对1
+    4.enter() 创建新的 和数据绑定的dom元素
+    4.append() 用在enter后面 表示创建新的和数据绑定的dom元素 里面需要打引号
+ -->

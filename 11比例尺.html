@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <svg width="800" height="800"></svg>
+    <script>
+        var scaleLiner = d3.scaleLinear()//定义线性比例尺
+        .domain([0,3])//定义域
+        .range([0,300])//值域
+        console.log(scaleLiner(1.5)); //输出的将会是150
+        
+        var color = ['blue','red','green','yellow'];
+
+        var scaleOrdinal = d3.scaleOrdinal()//定义序列比例尺
+        .domain([0,3])
+        .range(color)
+        for(var i =0;i<color.length;i++){
+            d3.select('body').append('div').text('颜色').style('color',scaleOrdinal(i))
+        }
+
+        //比例尺
+        var scaleX = d3.scaleLinear()
+        .domain([0,740])
+        .range([0,740])
+
+        var g = d3.select('svg')
+        .append('g')
+        .attr('transform','translate(0,0)')
+
+        var axisX = d3.axisBottom(scaleX).ticks(50)
+
+        g.append('g')
+        .attr('transform','translate(5,500)')
+        .call(axisX)
+
+    </script>
+</body>
+</html>
+<!-- 
+    1.d3.scaleLinear() 定义线性比例尺 
+    2.domain() 定义域 里面装一个数组
+    3.range() 值域 里面装一个数组
+    4.scaleOrdinal() 定义序列比例尺
+ -->

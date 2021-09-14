@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <p>我是原有的p</p>
+    <h2>看不到我就对了</好>
+    <script>
+        var bd = d3.select('body');
+        var p = d3.select('p');
+        bd.append('div').text('我是在 bd后面 插入的带div的p')
+        bd.insert('div','p').text('我是在 bd的p的前面 插入的带div的p')
+        d3.select('h2').remove();
+        
+    </script>
+</body>
+</html>
+<!-- 
+    例子中的selection选用的是body
+    1.selection.append('div') 在选择集后面插入东西
+    2.selection.insert('div','p') 在p前面插入东西
+    3.selection.('div').remove();
+ -->

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <h3>第1个h3</h3>
+    <h3>第2个h3</h3>
+    <h3>第3个h3</h3>
+    <h3>第4个h3</h3>
+    <h3>第5个h3</h3>
+    <h3>第6个h3</h3>
+    <script>
+        var h3 = d3.select('h3');
+        var text = h3.datum('改内容').text();
+        var html = h3.datum('改内容').html();
+        console.log(text);
+        console.log(html);
+        h3.datum('改内容').text(function(value,index){
+            return '<p>'+value+'</p>';
+        })
+
+        h3.datum('改内容').html(function(value,index){
+            return '<p>'+value+'</p>';
+        })
+    </script>
+</body>
+</html>
+<!-- 
+    1.text 不会识别标签
+    2.html 会识别标签
+ -->

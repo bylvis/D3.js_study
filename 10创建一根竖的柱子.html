@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <svg width="300" height="1000"></svg>
+    <script>
+        var data = [730,530,330,200,100];
+        var g = d3.select('svg')
+                .attr('transform','translate(30,30)');
+        var rectWidth =30;
+        g.selectAll('rect')
+         .data(data)
+         .enter()
+         .append('rect')
+         .attr('x',function(data,index){
+             return rectWidth*index;
+         })
+         .attr('y',0)
+         .attr('height',function(data,index){
+             return data;
+         })
+         .attr('width',function(data,index){
+            return rectWidth -5;
+         })
+         .style('fill','gold')
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <svg width="500" height="500"></svg>
+
+    <script>
+        var data = [10,32,22,43,53,65,34]
+        var margin = 30
+
+        var svg = d3.select('svg');
+        var width = svg.attr('width');
+        var height = svg.attr('height');
+        //创建分组
+        var g = svg.append('g').attr('transform','translate('+margin+','+margin+')');
+        
+        //定义 x,y轴比例尺
+        console.log(d3.range(data.length+1).splice(1,7));//将1-7位提取出来
+
+        var scaleX = d3.scaleBand()
+            .domain(d3.range(data.length))//0-6
+            .range([0,width-margin*2])//0-440
+        var scaleY = d3.scaleLinear()
+            .domain([0,d3.max(data)])//0-65
+            .range([height-margin*2,0])//440-0
+        
+        //绘制XY轴
+        var axisX = d3.axisBottom(scaleX);
+        var axisY = d3.axisLeft(scaleY);
+
+        g.append('g').attr('transform','translate(0,'+(height-margin*2)+')').call(axisX) //相对于g的基础上的移动 g的坐标已经是30，30 因此移动后坐标为30，440
+        g.append('g').attr('transform','translate(0,0)').call(axisY) //坐标30，30 向下走440
+
+        //创建矩形分组
+        var gs = g.selectAll('rect').data(data).enter().append('g') //选择所有rect->把所有rect和data数据绑定->生成和data个数相同的dom元素->添加g
+
+        //绘制柱状图
+        var rectp=20;
+        gs.append('rect')
+        .attr('x',function(data,index){
+            console.log(scaleX(index) + rectp/2);
+            return scaleX(index) + rectp/2;
+        })
+        .attr('y',function(data,index){
+            // console.log('Y:',scaleY(data));
+            // return scaleY(data);
+            var min = scaleY.domain()[0]//[0,90]
+            console.log(min,scaleY(min));//映射出来的是最大值 
+            return scaleY(min)
+        }).attr('height',function(data,index){
+            return 0 //动画初始状态为0
+        }).attr('fill','gold')
+        .attr('width',function(data,index){
+            return scaleX.step() -rectp
+        })
+        .transition()//添加过度
+        .duration(2000)//动画速度
+        .delay(function(data,index){
+            return index*200//每个柱子逐渐开始的效果 排队做动画
+        })
+        .attr('y',function(data,index){
+            return scaleY(data)
+        })
+        .attr('height',function(data,index){
+            return height - margin*2 -scaleY(data);
+        })
+        
+    </script>
+</body>
+</html>

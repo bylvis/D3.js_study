@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+
+    <h2></h2>
+    <h2></h2>
+    <h2></h2>
+    <h2></h2>
+    <h2></h2>
+
+    <h4></h4>
+    <h4></h4>
+    <h4></h4>
+    <h4></h4>
+    <h4></h4>
+
+    <script>
+        var h3 = d3.select('h3');
+        var h2 = d3.selectAll('h2');
+        var h4 = d3.selectAll('h4');
+        h3.datum('改内容').text(function(value,index){
+            return value;
+        })
+        h2.datum('改内容2').text(function(value,index){
+            return value 
+        })
+        h4.data('改内容3').text(function(value,index){
+            return value 
+        })
+    </script>
+</body>
+</html>
+<!-- 
+    1.datum 是1对多 会1个字符串对应一个绑定元素
+    2.data 是多对多 会拆分字符串
+ -->

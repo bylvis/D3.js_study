@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+<body>
+    <div class="box1"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <i></i><i></i><i></i><i></i><i></i>
+    <script>
+        var list = ['bai','18','shuai']
+        var box1 = d3.selectAll('div');
+        box1.datum('我是d3').text(function(value,index){
+            return '我是第' + index +'个标签,内容：'+value;
+        })
+        var p = d3.selectAll('p')
+        p.data(list).text(function(value,index){
+            return '我是第' + index +'个标签,内容：'+value;
+        })
+        var i = d3.selectAll('i')
+        i.data('dasdasf').text(function(value,index){
+            return '我是第' + index +'个标签,内容：'+value;
+        })
+    </script>
+</body>
+</html>
+<!-- 
+    1.d3.datum('')绑定一个数据到选择集上 一对多
+    2.d3.data('')绑定一个数组到选择集合上 一对一 是字符串的话会拆分
+ -->

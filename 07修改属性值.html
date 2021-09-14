@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+    <style>
+        .blue{
+            background-color: blue;
+        }
+        .gold{
+            background-color: gold;
+        }
+    </style>
+</head>
+<body>
+    <h3>第一个h3</h3>
+    <p title="23*">我是p</p>
+    <h2>第一个h2</h2>
+    <h2 class="h2_2 gold">第二个h2</h2>
+    <script>
+        var h3 =d3.select('h3');
+        var h2_2 =d3.select('[class = "h2_2"]');
+        var h2 =d3.selectAll('h2');
+        var p = d3.select('p');
+
+        h3.attr('title','我是h3的title');
+        console.log(p.attr('title'));
+        p.style('background-color','red');
+
+        h2.classed('blue','ture');
+        h2_2.text('h2_2')
+        h2.classed('gold',false);
+    </script>
+</body>
+</html>
+<!-- 
+    1.添加属性 selection.attr('title','我是title');
+    2.添加/删除类 selection.classed('class','true'/false)
+    3.修改css selection.style('background-color','red')
+ -->
