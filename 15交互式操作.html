@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./JS/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <svg width="500" height="500"></svg>
+    <script>
+        var data = [10, 39, 29, 54, 67, 74, 24, 23];
+        var margin = 30
+        var svg = d3.select('svg');
+
+        var width = svg.attr('width');
+        var height = svg.attr('height');
+
+        // 定义比例尺
+        var scaleX = d3.scaleBand()
+            .domain(d3.range(data.length))//
+            .range([0, width - margin * 2])
+
+        var scaleY = d3.scaleLinear()
+            .domain([0, d3.max(data)])
+            .range([height - margin * 2, 0])
+
+        var g = svg.append('g')
+            .attr('transform', 'translate(30,30)')
+
+        var axisX = d3.axisBottom(scaleX);
+        var axisY = d3.axisLeft(scaleY);
+        g.append('g').attr('transform', 'translate(0,' + (height - margin * 2) + ')').call(axisX)
+        g.append('g').attr('transform', 'translate(0,0)').call(axisY)
+
+        var gap = 30; //gap 是柱子之间的差距
+        var gs = g.selectAll('rect').data(data).enter().append('g')
+
+        gs.append('rect')
+            .attr('x', function (d, index) {
+                console.log('1:', scaleX(index));//scaleX(index) 是递加的
+                return scaleX(index) + gap / 2 //x的坐标是 x序列值加1/2gap 保证在中间
+            }).attr('y', function (d, index) {
+                // return scaleY(d)
+                return height - margin * 2
+            }).attr('height', function (d, index) {
+                // return height-margin*2-scaleY(d)
+                return 0
+            }).attr('width', function (d, index) {
+                console.log('2:', scaleX.step());
+                return scaleX.step() - gap //scaleX.step() 是递加的差值55 step-gap就是宽度
+            }).attr('fill', 'gold')
+            
+            .transition()
+            .duration(1000)
+            .delay(function (d, index) {
+                return index * 200
+            }).attr('y', function (d, index) {
+                return scaleY(d)
+            }).attr('height', function (d, index) {
+                return height - margin * 2 - scaleY(d)
+            }).attr('fill', 'pink')
+
+            .on('end', function () {
+                g.selectAll('rect')
+                    .on('mouseover', function () {
+                        d3.select(this)
+                            .transition()
+                            .duration(100)
+                            .delay(20)
+                            .attr('fill', 'green')
+                    })
+                    .on('mouseout', function () {
+                        d3.select(this)
+                            .transition()
+                            .duration(100)
+                            .delay(20)
+                            .attr('fill', 'pink');
+                    })
+            })
+
+
+        gs.append('text')
+            .attr('x', function (data, index) {
+                // 返回 每个x轴点的开始距离 + 宽度/2 -字体size 就会居中
+                return scaleX(index) + gap / 2
+            }).attr('y', function (data, index) {
+                return height - margin * 2;
+            }).attr('dx', function () {
+                return 2
+            }).attr('dy', function () {
+                return -5
+            })
+            .text(function (data, index) {
+                return null;
+            }).transition()
+
+            .duration(1000)
+
+            .delay(function (data, index) {
+                return index * 200
+            })
+
+            .attr('y', function (data, index) {
+                return scaleY(data)
+            }).text(function (data, index) {
+                return data
+            })
+
+
+
+
+
+    </script>
+</body>
+
+</html>

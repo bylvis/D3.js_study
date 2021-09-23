@@ -44,7 +44,7 @@
         gs.append('rect')
             .attr('x', function (data, index) {
                 // scaleX(index)是索引占X长度的几份
-                console.log(scaleX(index),rectP / 2,scaleX(index) + rectP / 2);
+                console.log(scaleX(index), rectP / 2, scaleX(index) + rectP / 2);
                 return scaleX(index) + rectP / 2;
             }).attr('y', function (data, index) {
                 // 从上往下倒
@@ -52,19 +52,20 @@
                 return scaleY(data);
             }).attr('width', function (data, index) {
                 // 刻度间隔 123
-                console.log('刻度间隔',scaleX.step());
+                console.log('刻度间隔', scaleX.step());
                 return scaleX.step() - rectP;
             }).attr('height', function (data, index) {
                 return height - margin * 2 - scaleY(data);
             }).attr('fill', 'gold')
+            
 
         gs.append('text')
-            .attr('x',function(data,index){
+            .attr('x', function (data, index) {
                 // 返回 每个x轴点的开始距离 + 宽度/2 -字体size 就会居中
-                return  scaleX(index) + scaleX.step()/2 - 12
-            }).attr('y',function(data,index){
+                return scaleX(index) + scaleX.step() / 2 - 12
+            }).attr('y', function (data, index) {
                 return scaleY(data);
-            }).text(function(data,index){
+            }).text(function (data, index) {
                 return data;
             })
     </script>

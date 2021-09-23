@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../JS/jQuery1.4.1.js"></script>
+    <script src="../JS/d3.v3.min.js"></script>
+</head>
+<style>
+    .forceLine {
+        stroke: #444;
+        stroke-width: 2;
+    }
+
+    .forceCircle {
+        stroke: black;
+        stroke-width: 2;
+    }
+
+    .forceText {
+        fill: black;
+        text-anchor: middle;
+        font-size: 20;
+        font-family: arial;
+    }
+</style>
+<button id="add">添加节点</button>
+
+<body>
+    <script>
+        var count = 0;
+        // 点击添加节点事件
+        $("#add").on('click', function () {
+            node = new Array();
+            edge = new Array();
+            $(nodes).each(function (index, data) {
+                console.log(index, data);
+                node[index] = new Object()
+                node[index].name = index;
+            })
+            $(edges).each(function (index, data) {
+                console.log(index, data);
+                edge[index] = new Object()
+                edge[index].source = 0
+                edge[index].target = new Object;
+                edge[index].target = index+1;
+            })
+            // 新建节点集合
+            node.push({ name: (nodes.length) })
+            edge.push({ source: 0, target: nodes.length })
+
+            nodes.length = 0;
+            edges.length = 0;
+            // 新建边集合
+
+            $('svg').remove();
+            console.log(nodes);
+            console.log(edge);
+            console.log(node);
+            nodes = node
+            edges = edge
+            add()
+        })
+
+        var nodes = [
+            { name: 0 },
+            { name: 1 },
+            { name: 2 },
+            { name: 3 },
+            { name: 4 },
+            { name: 5 },
+            { name: 6 },
+        ]
+        var edges = [
+            { source: 0, target: 1 },//源点和目标
+            { source: 0, target: 2 },
+            { source: 0, target: 3 },
+            { source: 1, target: 4 },
+            { source: 1, target: 5 },
+            { source: 1, target: 6 },
+        ];
+        add();
+        function add() {
+            node = nodes;
+            edge = edges;
+            var width = 500;
+            var height = 500;
+            var svg = d3.select('body')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+            //转换数据
+            var force = d3.layout
+                .force()
+                .nodes(node)
+                .links(edge)
+                .size([width, height])
+                .linkDistance(80)
+                .charge(-400)
+            force.start();
+            var color = d3.scale.category20();
+
+            //绘制连线
+            var lines = svg
+                .selectAll(".forceLine") //找到所有的力导向线
+                .data(edges) //绑定边
+                .enter() //添加dom元素之前的操作
+                .append("line") //添加线
+                .attr("class", "forceLine"); //类添加力导向线
+
+            // 绘制点
+            var circles = svg
+                .selectAll(".forceCircle") //找到所有节点
+                .data(node) //和节点集绑定
+                .enter()
+                .append("circle")
+                .attr("class", "forceCircle")
+                .attr("r", 30) //半径
+                .style("fill", function (d, i) { //填充颜色
+                    return color(i);
+                })
+                .call(force.drag); // 添加力向导图的拖拽行为
+
+            
+
+
+            //绘制文字
+            var texts = svg
+                .selectAll(".forceText")
+                .data(node) // 文本的数目与节点的数目相同
+                .enter()
+                .append("text")
+                .attr("class", "forceText")
+                .attr("x", function (d) {
+                    return d.x;
+                })
+                .attr("y", function (d) {
+                    return d.y;
+                })
+                .attr("dy", ".3em")
+                .text(function (d) {
+                    return d.name; // 文本的内容即节点的名称
+                });
+
+
+            //tick事件的监听器 绘制节点
+            force.on("tick", function () {
+                //更新边的端点坐标
+                lines.attr("x1", function (d) {
+                    return d.source.x;
+                });
+                lines.attr("y1", function (d) {
+                    return d.source.y;
+                });
+                lines.attr("x2", function (d) {
+                    return d.target.x;
+                });
+                lines.attr("y2", function (d) {
+                    return d.target.y;
+                });
+
+                //更新节点坐标
+                circles.attr("cx", function (d) {
+                    return d.x;
+                });
+                circles.attr("cy", function (d) {
+                    return d.y;
+                });
+
+
+                //更新节点文字的坐标
+                texts.attr("x", function (d) {
+                    return d.x;
+                });
+                texts.attr("y", function (d) {
+                    return d.y;
+                });
+            });
+
+        }
+
+    </script>
+</body>
+
+</html>

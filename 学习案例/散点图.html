@@ -1,0 +1,98 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<head>
+    <title>散点图</title>
+</head>
+
+<style>
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+</style>
+
+
+<body>
+    <!-- // <script src="d3/d3.js" charset="utf-8"></script> -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+
+        var width = 400;
+        var height = 400;
+        var dataset = [[0.5, 0.5], [0.7, 0.8], [0.4, 0.9],
+        [0.11, 0.32], [0.88, 0.25], [0.75, 0.12],
+        [0.5, 0.1], [0.2, 0.3], [0.4, 0.1]];
+        var padding = { left: 30, right: 30, top: 30, bottom: 30 };
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        var xScale = d3.scale.linear()
+            .domain([0, 1.2 * d3.max(dataset, function (d) {
+                return d[0];
+            })])
+            .range([0, width - padding.left - padding.right]);
+
+        var yScale = d3.scale.linear()
+            .domain([0, 1.2 * d3.max(dataset, function (d) {
+                return d[1];
+            })])
+            .range([height - padding.top - padding.bottom, 0]);
+
+        var circle = svg.selectAll("circle")
+            .data(dataset)
+            .enter()
+            .append("circle")
+            .attr("fill", "black")
+            .attr("cx", function (d) {
+                return padding.left + xScale(d[0]);//设置圆心x坐标
+            })
+            .attr("cy", function (d) {
+
+                console.log(yScale(d[1]));
+                return yScale(d[1]) + padding.bottom;
+                //调节y的值  调了好久 
+                //需要与设置的y轴的坐标相对应
+            })
+            .attr("r", 5);//半径
+
+        //定义x轴
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom");//坐标轴方向
+        //定义Y轴
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left");
+
+        //添加X轴
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + padding.left + "," + (height - padding.bottom) + ")")
+            .call(xAxis);
+
+        //添加y轴
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + padding.left + "," + padding.top + ")")
+            // .attr("transform","translate("+padding.left+(height-padding.bottom-yAxisWidth)+")")
+            .call(yAxis);
+
+
+    </script>
+
+</body>
+
+</html>

@@ -11,13 +11,17 @@
     <svg width="500" height="500"></svg>
 
     <script>
+        // 创建数据
         var data = [10,32,22,43,53,65,34]
-        var margin = 30
 
+        var margin = 30
+        // 选择svg
         var svg = d3.select('svg');
+        // 给svg添加属性 宽高
         var width = svg.attr('width');
         var height = svg.attr('height');
-        //创建分组
+
+        //创建分组g 坐标30,30
         var g = svg.append('g').attr('transform','translate('+margin+','+margin+')');
         
         //定义 x,y轴比例尺
@@ -34,10 +38,11 @@
         var axisX = d3.axisBottom(scaleX);
         var axisY = d3.axisLeft(scaleY);
 
+        //在g里面添加坐标轴
         g.append('g').attr('transform','translate(0,'+(height-margin*2)+')').call(axisX) //相对于g的基础上的移动 g的坐标已经是30，30 因此移动后坐标为30，440
         g.append('g').attr('transform','translate(0,0)').call(axisY) //坐标30，30 向下走440
 
-        //创建矩形分组
+        //创建矩形分组 在g里面选择所有的rect 
         var gs = g.selectAll('rect').data(data).enter().append('g') //选择所有rect->把所有rect和data数据绑定->生成和data个数相同的dom元素->添加g
 
         //绘制柱状图
